@@ -1,6 +1,5 @@
 {
-  "name": "رزومه و پلتفرم معرفی ابرلاین",
-  "description": "سامانه جامع معرفی دستاوردها، سامانه‌ها و پورتفولیوی شرکت فناوری ابرلاین با قابلیت پرزنتیشن تعاملی، خروجی پاورپوینت PPTX و PDF افقی لنداسکیپ",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "ارائه شرکتی ابرلاین",
+  "description": "پرزنتیشن زنده وب برای شرکت ابرلاین با تصاویر واقعی محصولات، خروجی پاورپوینت ۱۶:۹ و PDF لنداسکیپ بدون تداخل صفحه",
+  "requestFramePermissions": []
 }
