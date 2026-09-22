@@ -7,9 +7,7 @@ export const PrintDeck: React.FC = () => {
     <div id="print-landscape-deck" className="print-page-deck hidden print:block">
       {DECK.map((slide) => (
         <section key={slide.id} className="print-slide">
-          <div className="print-slide-inner">
-            <SlideView slide={slide} />
-          </div>
+          <SlideView slide={slide} />
         </section>
       ))}
     </div>

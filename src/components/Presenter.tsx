@@ -5,32 +5,6 @@ import { SlideView } from './SlideView';
 import { SafeImg } from './SafeImg';
 import { BrandMark } from './BrandMark';
 
-const BASE_W = 1920;
-const BASE_H = 1080;
-
-function useFitScale(ref: React.RefObject<HTMLElement | null>) {
-  const [scale, setScale] = useState(0.4);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const update = () => {
-      const w = el.clientWidth;
-      const h = el.clientHeight;
-      if (w < 1 || h < 1) return;
-      setScale(Math.min(w / BASE_W, h / BASE_H));
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    window.addEventListener('resize', update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', update);
-    };
-  }, [ref]);
-  return scale;
-}
-
 interface PresenterProps {
   index: number;
   setIndex: (n: number | ((prev: number) => number)) => void;
@@ -48,8 +22,6 @@ export const Presenter: React.FC<PresenterProps> = ({
   onOpenCatalog,
   onOpenExport,
 }) => {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const scale = useFitScale(stageRef);
   const slide = DECK[index];
   const [idle, setIdle] = useState(false);
   const idleTimer = useRef<number | null>(null);
@@ -109,8 +81,7 @@ export const Presenter: React.FC<PresenterProps> = ({
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#070b12] text-slate-100">
       <div
-        ref={stageRef}
-        className="absolute inset-0 flex items-center justify-center overflow-hidden"
+        className="absolute inset-0 overflow-hidden"
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;
@@ -118,27 +89,7 @@ export const Presenter: React.FC<PresenterProps> = ({
           else if (x > rect.width * 0.72) go(-1);
         }}
       >
-        <div
-          style={{
-            width: BASE_W * scale,
-            height: BASE_H * scale,
-            position: 'relative',
-            overflow: 'hidden',
-            flexShrink: 0,
-          }}
-        >
-          <div
-            style={{
-              width: BASE_W,
-              height: BASE_H,
-              transform: `scale(${scale})`,
-              transformOrigin: 'top left',
-              overflow: 'hidden',
-            }}
-          >
-            <SlideView slide={slide} />
-          </div>
-        </div>
+        <SlideView slide={slide} />
       </div>
 
       <header

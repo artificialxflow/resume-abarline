@@ -84,7 +84,9 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, onTri
               <Printer className="w-5 h-5 text-teal-300 mt-0.5" />
               <div>
                 <div className="text-sm font-bold">PDF لنداسکیپ بدون تداخل</div>
-                <div className="text-xs text-slate-400 mt-1">هر اسلاید یک صفحه افقی جدا — در چاپ Landscape را انتخاب کنید</div>
+                <div className="text-xs text-slate-400 mt-1">
+                  در پنجره چاپ، Layout / Orientation را روی Landscape بگذارید و Margins را None کنید
+                </div>
               </div>
             </div>
             <button

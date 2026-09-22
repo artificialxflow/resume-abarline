@@ -4,8 +4,8 @@ import { BrandMark } from './BrandMark';
 import { SafeImg } from './SafeImg';
 
 const SLIDE: React.CSSProperties = {
-  width: 1920,
-  height: 1080,
+  width: '100%',
+  height: '100%',
   overflow: 'hidden',
   position: 'relative',
   boxSizing: 'border-box',
@@ -15,11 +15,11 @@ const SLIDE: React.CSSProperties = {
 function Frame({
   slide,
   children,
-  pad = 44,
+  pad = '2.2vmin',
 }: {
   slide: DeckSlide;
   children: React.ReactNode;
-  pad?: number;
+  pad?: number | string;
 }) {
   const dark = slide.theme === 'dark';
   return (
@@ -146,7 +146,7 @@ function Photo({
 function CoverSlide({ slide }: { slide: DeckSlide }) {
   const shots = slide.images;
   return (
-    <Frame slide={slide} pad={44}>
+    <Frame slide={slide}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <BrandMark size={52} />
@@ -181,11 +181,11 @@ function CoverSlide({ slide }: { slide: DeckSlide }) {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 0 }}>
-          <div style={{ fontSize: 92, fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.04em' }}>{slide.title}</div>
-          <div style={{ fontSize: 30, fontWeight: 700, color: '#5eead4', marginTop: 16, lineHeight: 1.4 }}>
+          <div style={{ fontSize: 'clamp(40px, 7.2vmin, 84px)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.04em' }}>{slide.title}</div>
+          <div style={{ fontSize: 'clamp(18px, 2.6vmin, 28px)', fontWeight: 700, color: '#5eead4', marginTop: 16, lineHeight: 1.4 }}>
             {slide.subtitle}
           </div>
-          <div style={{ fontSize: 20, color: '#b7c5d3', marginTop: 14, lineHeight: 1.65, maxWidth: 700 }}>
+          <div style={{ fontSize: 'clamp(14px, 1.7vmin, 20px)', color: '#b7c5d3', marginTop: 14, lineHeight: 1.65, maxWidth: 700 }}>
             {COMPANY.lead}
           </div>
         </div>
@@ -240,7 +240,7 @@ function AboutSlide({ slide }: { slide: DeckSlide }) {
   return (
     <Frame slide={slide}>
       <Kicker text={slide.kicker} dark />
-      <div style={{ fontSize: 44, fontWeight: 800, lineHeight: 1.2, flexShrink: 0 }}>{slide.title}</div>
+      <div style={{ fontSize: 'clamp(26px, 3.8vmin, 44px)', fontWeight: 800, lineHeight: 1.2, flexShrink: 0 }}>{slide.title}</div>
       <div style={{ fontSize: 20, color: '#9fb1c3', marginTop: 8, marginBottom: 16, lineHeight: 1.55, flexShrink: 0 }}>
         {slide.subtitle}
       </div>
@@ -287,7 +287,7 @@ function PillarsSlide({ slide }: { slide: DeckSlide }) {
   return (
     <Frame slide={slide}>
       <Kicker text={slide.kicker} />
-      <div style={{ fontSize: 42, fontWeight: 800, marginBottom: 16, flexShrink: 0 }}>{slide.title}</div>
+      <div style={{ fontSize: 'clamp(26px, 3.6vmin, 42px)', fontWeight: 800, marginBottom: 16, flexShrink: 0 }}>{slide.title}</div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 18, flex: 1, minHeight: 0 }}>
         {(slide.pillars || []).map((p) => (
           <div
@@ -342,7 +342,7 @@ function EcosystemSlide({ slide }: { slide: DeckSlide }) {
           marginBottom: 14,
         }}
       >
-        <div style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.2 }}>{slide.title}</div>
+        <div style={{ fontSize: 'clamp(24px, 3.4vmin, 40px)', fontWeight: 800, lineHeight: 1.2 }}>{slide.title}</div>
         <div style={{ fontSize: 16, color: '#5b6d7d', maxWidth: 560, lineHeight: 1.5 }}>{slide.subtitle}</div>
       </div>
       <div
@@ -396,7 +396,7 @@ function HeroSlide({ slide }: { slide: DeckSlide }) {
       <div style={{ display: 'grid', gridTemplateColumns: '0.86fr 1.14fr', gap: 28, flex: 1, minHeight: 0 }}>
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
           <Kicker text={slide.kicker} dark={dark} />
-          <div style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.2, flexShrink: 0 }}>{slide.title}</div>
+          <div style={{ fontSize: 'clamp(24px, 3.4vmin, 40px)', fontWeight: 800, lineHeight: 1.2, flexShrink: 0 }}>{slide.title}</div>
           <div style={{ fontSize: 18, marginTop: 8, lineHeight: 1.5, color: dark ? '#9fb1c3' : '#4b5d6e', flexShrink: 0 }}>
             {slide.subtitle}
           </div>
@@ -440,7 +440,7 @@ function PairSlide({ slide }: { slide: DeckSlide }) {
   return (
     <Frame slide={slide}>
       <Kicker text={slide.kicker} />
-      <div style={{ fontSize: 40, fontWeight: 800, marginBottom: 14, flexShrink: 0 }}>{slide.title}</div>
+      <div style={{ fontSize: 'clamp(24px, 3.4vmin, 40px)', fontWeight: 800, marginBottom: 14, flexShrink: 0 }}>{slide.title}</div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, flex: 1, minHeight: 0 }}>
         {(slide.pair || []).map((p) => (
           <div

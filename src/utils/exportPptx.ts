@@ -1,9 +1,18 @@
 import pptxgen from 'pptxgenjs';
 import { COMPANY, DECK, type DeckSlide } from '../data/portfolioData';
 
-const cache = new Map<string, string>();
+const cache = new Map<string, { data: string; width: number; height: number }>();
 
-async function toDataUrl(src: string): Promise<string> {
+function loadImageSize(data: string): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = reject;
+    img.src = data;
+  });
+}
+
+async function toDataUrl(src: string) {
   if (cache.has(src)) return cache.get(src)!;
   const res = await fetch(src);
   if (!res.ok) throw new Error(`image ${src}`);
@@ -14,8 +23,21 @@ async function toDataUrl(src: string): Promise<string> {
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   });
-  cache.set(src, data);
-  return data;
+  const size = await loadImageSize(data);
+  const entry = { data, ...size };
+  cache.set(src, entry);
+  return entry;
+}
+
+function fitBox(boxW: number, boxH: number, imgW: number, imgH: number) {
+  const imgRatio = imgW / imgH || 1;
+  const boxRatio = boxW / boxH;
+  if (imgRatio > boxRatio) {
+    const h = boxW / imgRatio;
+    return { w: boxW, h, xOff: 0, yOff: (boxH - h) / 2 };
+  }
+  const w = boxH * imgRatio;
+  return { w, h: boxH, xOff: (boxW - w) / 2, yOff: 0 };
 }
 
 async function addPicture(
@@ -27,8 +49,15 @@ async function addPicture(
   h: number
 ) {
   try {
-    const data = await toDataUrl(src);
-    slide.addImage({ data, x, y, w, h, sizing: { type: 'contain', w, h } });
+    const img = await toDataUrl(src);
+    const fitted = fitBox(w, h, img.width, img.height);
+    slide.addImage({
+      data: img.data,
+      x: x + fitted.xOff,
+      y: y + fitted.yOff,
+      w: fitted.w,
+      h: fitted.h,
+    });
   } catch (error) {
     console.warn('skip image', src, error);
   }
